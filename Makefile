@@ -21,7 +21,7 @@ k8s_integration_execute:
 
 .PHONY: compile
 compile:
-	go build -o flyteadmin ./cmd/ && mv ./flyteadmin ${GOPATH}/bin
+	go build -gcflags='all=-N -l' -o flyteadmin ./cmd/ && mv ./flyteadmin ${GOPATH}/bin
 
 .PHONY: linux_compile
 linux_compile:

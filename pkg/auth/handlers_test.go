@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -43,8 +44,8 @@ func TestGetLoginHandler(t *testing.T) {
 func TestGetHTTPRequestCookieToMetadataHandler(t *testing.T) {
 	ctx := context.Background()
 	// These were generated for unit testing only.
-	hashKeyEncoded := "wG4pE1ccdw/pHZ2ml8wrD5VJkOtLPmBpWbKHmezWXktGaFbRoAhXidWs8OpbA3y7N8vyZhz1B1E37+tShWC7gA" //nolint:goconst
-	blockKeyEncoded := "afyABVgGOvWJFxVyOvCWCupoTn6BkNl4SOHmahho16Q"                                           //nolint:goconst
+	hashKeyEncoded := "0SxfnJ6TrFs0qJVEOkzcUAC1ok6uXijeqxmvbbKiEnmsmeKwubav9RgacUmRyBXw+mak7NxqZlZ9usYwGbXr+A" //nolint:goconst
+	blockKeyEncoded := "ipkkFIRD90+7Mfvod7QKAt1gxnXE1M+rTsfyNkwSNM4"                                           //nolint:goconst
 	cookieManager, err := NewCookieManager(ctx, hashKeyEncoded, blockKeyEncoded)
 	assert.NoError(t, err)
 	mockAuthCtx := mocks.AuthenticationContext{}
@@ -55,10 +56,15 @@ func TestGetHTTPRequestCookieToMetadataHandler(t *testing.T) {
 	assert.NoError(t, err)
 
 	accessTokenCookie, err := NewSecureCookie(accessTokenCookieName, "a.b.c", cookieManager.hashKey, cookieManager.blockKey)
+	fmt.Printf("%v", accessTokenCookie)
 	assert.NoError(t, err)
 	req.AddCookie(&accessTokenCookie)
-
 	idCookie, err := NewSecureCookie(idTokenCookieName, "a.b.c", cookieManager.hashKey, cookieManager.blockKey)
+	fmt.Printf("%v", idCookie)
+
+	idCookie2, err := NewSecureCookie(refreshTokenCookieName, "a.b.c", cookieManager.hashKey, cookieManager.blockKey)
+	fmt.Printf("%v", idCookie2)
+
 	assert.NoError(t, err)
 	req.AddCookie(&idCookie)
 

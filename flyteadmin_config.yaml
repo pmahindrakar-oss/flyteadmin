@@ -8,7 +8,7 @@ server:
   grpcServerReflection: true
   security:
     secure: false
-    useAuth: false
+    useAuth: true
     allowCors: true
     allowedOrigins:
       # Accepting all domains for Sandbox installation
@@ -16,17 +16,21 @@ server:
     allowedHeaders:
       - "Content-Type"
     oauth:
-      clientId: yourclientid
-      clientSecretFile: "/path/to/oauth/secret"
-      authorizeUrl: "https://idp.com/oauth2/authorize"
-      tokenUrl: "https://idp.com/oauth2/token"
-      callbackUrl: "https://localhost:8088/callback"
-      cookieHashKeyFile: "/path/to/admin_cookie_hash_key"
-      cookieBlockKeyFile: "/path/to/admin_cookie_block_key"
+      clientId: 560082662597-gcmpn74jvn7p6u4hp0bqi1sqau5mqt94.apps.googleusercontent.com
+      clientSecretFile: "secret"
+      authorizeUrl: "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline"
+      tokenUrl: "https://oauth2.googleapis.com/token"
+      callbackUrl: "http://localhost:8088/callback"
+      cookieHashKeyFile: "hashkey"
+      cookieBlockKeyFile: "blockkey"
       redirectUrl: "/api/v1/projects"
+      baseUrl: "https://accounts.google.com/"
       claims:
-        iss: "https://idp.com"
-        aud: "api://default"
+        iss: "https://accounts.google.com"
+        aud: "560082662597-gcmpn74jvn7p6u4hp0bqi1sqau5mqt94.apps.googleusercontent.com"
+      scopes:
+          - profile
+          - openid
       idpUserInfoEndpoint: "/v1/userinfo"
   thirdPartyConfig:
     flyteClient:
